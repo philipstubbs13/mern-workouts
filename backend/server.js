@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const workoutRoutes = require("./routes/workout");
 const userRoutes = require("./routes/user");
@@ -16,6 +17,17 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
+
+// Serve frontend in production
+if (process.env.NODE_ENV === "production") {
+  const frontendPath = path.join(__dirname, "../frontend/dist");
+  app.use(express.static(frontendPath));
+
+  // Catch-all route to serve React's index.html
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+}
 
 // routes
 app.use("/api/workouts", workoutRoutes);
