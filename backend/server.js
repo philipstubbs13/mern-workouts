@@ -18,20 +18,22 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve frontend in production
-if (process.env.NODE_ENV === "production") {
-  const frontendPath = path.join(__dirname, "../frontend/dist");
-  app.use(express.static(frontendPath));
-
-  // Catch-all route to serve React's index.html
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(frontendPath, "index.html"));
-  });
-}
-
 // routes
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/user", userRoutes);
+
+// Serve frontend
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  app.get(/(.*)/, (req, res) =>
+    res.sendFile(
+      path.resolve(__dirname, "../", "frontend", "dist", "index.html")
+    )
+  );
+} else {
+  app.get("/", (req, res) => res.end("Please set to production"));
+}
 
 // connect to db
 mongoose
