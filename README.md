@@ -4,6 +4,12 @@ This project is a MERN stack application that allows user to log and keep track 
 
 The app uses React for the frontend, Node.js and Express for the backend, and MongoDB for the database. It demonstrates how to implement authentication and routing in a full-stack application.
 
+## Live App URL
+
+https://stridely.vercel.app/
+
+## Screenshots
+
 <img src="./screenshots/stridely.png" />
 
 <img src="./screenshots/stridely-login.png" />
